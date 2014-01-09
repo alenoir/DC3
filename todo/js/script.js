@@ -1,0 +1,38 @@
+$(document).ready(function(){
+	$.ajax({
+	 url: "/ajax.php?action=get"
+	}).done(function(data) {
+	 $('#list-item').html(data);
+	 deleteIt();
+	});
+	
+	$('#form-item').submit(function(){
+		var data = $(this).serialize();
+		//console.log(data);
+
+		$.ajax({
+		 url: "/ajax.php?action=create",
+		 type: 'post',
+		 data: data
+		}).done(function(data) {
+		 $('#list-item').html(data);
+		 deleteIt();
+		});
+		return false;
+	});
+	
+	function deleteIt() {
+		$('.delete').on('click',function(){
+			var url = $(this).attr('href');
+			$.ajax({
+			 url: url
+			}).done(function(data) {
+			 $('#list-item').html(data);
+			 deleteIt();
+			});
+			return false;
+		});
+	}
+		
+	
+});
